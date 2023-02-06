@@ -5,14 +5,14 @@ import { AppService } from './app.service';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostModule } from './modules/post-module/post.module';
+import { PostModule } from './modules/post/post.module';
 
 @Module({
   imports: [
-	ConfigModule.forRoot({
-	  envFilePath: ['.env'],
-      load: [configuration]
-	}),
+      ConfigModule.forRoot({
+          envFilePath: ['.env'],
+          load: [configuration],
+      }),
 	TypeOrmModule.forRootAsync({
         imports: [ConfigModule],
         useFactory: (configService: ConfigService) => ({

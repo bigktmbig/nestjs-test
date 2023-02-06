@@ -6,12 +6,6 @@ export class MediaPost {
     id: number;
 
     @Column()
-    title: string;
-
-    @Column()
-    content: string;
-
-    @Column()
     thumbnail: string;
 
     @Column()

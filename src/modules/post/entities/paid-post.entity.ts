@@ -5,12 +5,6 @@ export class PaidPost {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    title: string;
-
-    @Column()
-    content: string;
-
     @Column({ default: 0 })
     regularPrice: number;
 

@@ -54,6 +54,21 @@ $ npm run test:cov
     
       @Column({ default: true })
       isActive: boolean;
+      
+       @OneToOne(
+          () => AddressEntity,
+          {
+            // Make sure that when you delete or update a user, it will affect the
+            // corresponding `AddressEntity`
+            cascade: true,
+            // Make sure when you use `preload`, `AddressEntity` of the user will also
+            // return (This means whenever you use any kind of `find` operations on
+            // `UserEntity`, it would load this entity as well)
+            eager: true
+          }
+        )
+        @JoinColumn()
+        address: AddressEntity;
     }
     
 4/ Run test e2e
