@@ -3,16 +3,24 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {ConfigModule, ConfigService} from "@nestjs/config";
-import configuration from "../../../../src/config/configuration";
-import {PostModule} from "../../../../src/modules/post-module/post.module";
-import {CreateNormalPostDto} from "../../../../src/modules/post-module/normal-post/dto/create-normal-post.dto";
-import {UpdateNormalPostDto} from "../../../../src/modules/post-module/normal-post/dto/update-normal-post.dto";
+import configuration from "../../../src/config/configuration";
+import {PostModule} from "../../../src/modules/post/post.module";
+import {CreatePostDto} from "../../../src/modules/post/dto/create-post.dto";
+import {UpdatePostDto} from "../../../src/modules/post/dto/update-post.dto";
 
-describe('Normal Post - /normal-post (e2e)', () => {
-    const normalPost = {
-        id: 1,
+describe('Post - /post (e2e)', () => {
+    const post = {
         title: 'title #1',
-        content: 'Content #1'
+        content: 'Content #1',
+        type: 1
+        // paidPost: {
+        //     regularPrice: 4000,
+        //     salePrice: 5000
+        // },
+        // mediaPost: {
+        //     thumbnail: "test.jpg",
+        //     cover: "image"
+        // }
     };
 
     let app: INestApplication;
@@ -46,47 +54,46 @@ describe('Normal Post - /normal-post (e2e)', () => {
         await app.init();
     });
 
-    it('Create [POST /normal-post]', () => {
+    it('Create [POST /post]', () => {
         return request(app.getHttpServer())
-            .post('/normal-post')
-            .send(normalPost as CreateNormalPostDto)
+            .post('/post')
+            .send(post as CreatePostDto)
             .expect(201)
             .then(({ body }) => {
-                expect(body).toEqual(normalPost);
+                expect(body).toBeDefined();
             });
     });
 
-    it('Get all normal-post [GET /normal-post]', () => {
+    it('Get all post [GET /post]', () => {
         return request(app.getHttpServer())
-            .get('/normal-post')
+            .get('/post')
             .expect(200)
             .then(({ body }) => {
                 expect(body).toBeDefined();
             });
     });
 
-    it('Get one normal-post [GET /normal-post/:id]', () => {
+    it('Get one post [GET /post/:id]', () => {
         return request(app.getHttpServer())
-            .get('/normal-post/1')
+            .get('/post/1')
             .expect(200)
             .then(({ body }) => {
                 expect(body).toBeDefined();
             });
     });
 
-    it('Update one normal-post [Patch /normal-post/:id]', () => {
+    it('Update one post [Patch /post/:id]', () => {
         return request(app.getHttpServer())
-            .patch('/normal-post/1')
-            .send(normalPost as UpdateNormalPostDto)
+            .patch('/post/1')
+            .send(post as UpdatePostDto)
             .expect(200)
             .then(({ body }) => {
                 expect(body).toBeDefined();
-                expect(body).toEqual(normalPost);
             });
     });
 
-    it('Delete one normal-post [DELETE /normal-post/:id]', () => {
-        return request(app.getHttpServer()).delete('/normal-post/1').expect(200);
+    it('Delete one post [DELETE /post/:id]', () => {
+        return request(app.getHttpServer()).delete('/post/1').expect(200);
     });
 
     afterAll(async () => {

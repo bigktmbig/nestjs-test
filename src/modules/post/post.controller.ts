@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException} from '@nestjs/common';
+import {Controller, Get, Post, Delete, Body, Patch, Param, Query} from '@nestjs/common';
 import { PostService } from './post.service';
 import { PostEntity } from './entities/post-entity.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -14,8 +14,8 @@ export class PostController {
   }
 
   @Get()
-  findAll(): Promise<PostEntity[]> {
-    return this.postService.findAll();
+  findAll(@Query('filter') filter: object = {}): Promise<PostEntity[]> {
+    return this.postService.findAll(filter);
   }
 
   @Get(':id')

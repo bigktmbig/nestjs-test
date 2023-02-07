@@ -29,20 +29,16 @@ export class PostService {
     return this.postRepository.save(postEntity);
   }
 
-  findAll(): Promise<PostEntity[]> {
-    return this.postRepository.find();
+  findAll(filter: object): Promise<PostEntity[]> {
+    let whereObj = {};
+    if (Object.keys(filter).length > 0) {
+      whereObj = { where: filter};
+    }
+    return this.postRepository.find(whereObj);
   }
 
   findOne(id: number): Promise<PostEntity> {
-    return this.postRepository.findOne({
-      where: {
-        id: id
-      },
-      relations: {
-        paidPost: true,
-        mediaPost: true,
-      }
-    });
+    return this.postRepository.findOneBy({id: id});
   }
 
   async update(id: number, updatePostDto: UpdatePostDto): Promise<PostEntity> {

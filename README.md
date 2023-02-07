@@ -73,3 +73,7 @@ $ npm run test:cov
     
 4/ Run test e2e
     npm run test:e2e
+    
+    
+5/ diagrams
+https://app.diagrams.net/#G1leV6-lPF5GVAacKjl8gya7lJhuu_scoo
