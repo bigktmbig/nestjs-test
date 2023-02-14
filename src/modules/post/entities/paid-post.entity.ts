@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from 'typeorm';
+import {PostEntity} from "./post-entity.entity";
 
 @Entity()
 export class PaidPost {
@@ -10,4 +11,12 @@ export class PaidPost {
 
     @Column({ default: 0 })
     salePrice: number;
+
+    @OneToOne(() => PostEntity, {
+        onDelete: "CASCADE"
+    })
+    @JoinColumn([
+        { name: "post_id", referencedColumnName: "id" }
+    ])
+    post_id: number;
 }

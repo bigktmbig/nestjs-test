@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinTable, JoinColumn } from 'typeorm';
 import {PaidPost} from "./paid-post.entity";
 import {MediaPost} from "./media-post.entity";
 
@@ -16,11 +16,16 @@ export class PostEntity {
     @Column({ default: 1 })
     type: number;  // 1: normalPost, 2: paidPost, 3: mediaPost
 
-    @OneToOne(() => PaidPost, { cascade: true, eager: true})
-    @JoinColumn()
+    @OneToOne(() => PaidPost, (paidPost) => paidPost.post_id, {
+        cascade: true,
+        eager: true,
+        onDelete: "CASCADE"
+        })
     paidPost: PaidPost;
 
-    @OneToOne(() => MediaPost, { cascade: true, eager: true})
-    @JoinColumn()
+    @OneToOne(() => MediaPost, (mediaPost) => mediaPost.post_id, {
+        cascade: true,
+        eager: true
+    })
     mediaPost: MediaPost;
 }
