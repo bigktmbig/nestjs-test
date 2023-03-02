@@ -5,6 +5,6 @@ export class CreatePostDto {
     title: string;
     content: string;
     type: number;
-    paidPost?: PaidPost;
-    mediaPost?: MediaPost;
+    paid_post?: PaidPost;
+    media_post?: MediaPost;
 }

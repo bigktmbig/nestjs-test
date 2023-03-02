@@ -12,7 +12,7 @@ export class MediaPost {
     @Column()
     cover: string;
 
-    @OneToOne(() => PostEntity, {
+    @OneToOne(() => PostEntity, (post_entity) => post_entity.media_post, {
         onDelete: "CASCADE"
     })
     @JoinColumn([

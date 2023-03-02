@@ -12,7 +12,7 @@ export class PaidPost {
     @Column({ default: 0 })
     salePrice: number;
 
-    @OneToOne(() => PostEntity, {
+    @OneToOne(() => PostEntity, (post_entity) => post_entity.paid_post, {
         onDelete: "CASCADE"
     })
     @JoinColumn([

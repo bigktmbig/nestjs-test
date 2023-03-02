@@ -77,3 +77,54 @@ $ npm run test:cov
     
 5/ diagrams
 https://drive.google.com/file/d/1leV6-lPF5GVAacKjl8gya7lJhuu_scoo/view?usp=sharing
+
+6/ relation
+  a/ Many-to-many
+    @Table
+    class Book extends Model {
+      @BelongsToMany(() => Author, () => BookAuthor)
+      authors: Author[];
+    }
+
+    @Table
+    class Author extends Model {
+      @BelongsToMany(() => Book, () => BookAuthor)
+      books: Book[];
+    }
+
+    @Table
+    class BookAuthor extends Model {
+      @ForeignKey(() => Book)
+      @Column
+      bookId: number;
+
+      @ForeignKey(() => Author)
+      @Column
+      authorId: number;
+    }
+
+  b/ One-to-many
+    @Table
+    class Player extends Model {
+      @Column
+      name: string;
+
+      @Column
+      num: number;
+
+      @ForeignKey(() => Team)
+      @Column
+      teamId: number;
+
+      @BelongsTo(() => Team)
+      team: Team;
+    }
+
+    @Table
+    class Team extends Model {
+      @Column
+      name: string;
+
+      @HasMany(() => Player)
+      players: Player[];
+    }

@@ -4,7 +4,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {PostEntity} from "./entities/post-entity.entity";
-import {POST_MEDIA, POST_PAID} from "./constants";
+import { constant } from "./constants";
 
 @Injectable()
 export class PostService {
@@ -19,13 +19,13 @@ export class PostService {
     postEntity.title = createPostDto.title;
     postEntity.content = createPostDto.content;
     postEntity.type = createPostDto.type;
-    if (createPostDto.type === POST_PAID) {
-      postEntity.paidPost = createPostDto.paidPost;
-    }
-    if (createPostDto.type === POST_MEDIA) {
-      postEntity.mediaPost = createPostDto.mediaPost;
-    }
 
+    // handle map post data by type
+    Object.entries(constant.POST_LIST).forEach(([key, value]) => {
+      if (parseInt(key) === postEntity.type) {
+        postEntity[value] = createPostDto[value];
+      }
+    });
     return this.postRepository.save(postEntity);
   }
 
@@ -42,12 +42,12 @@ export class PostService {
   }
 
   async update(id: number, updatePostDto: UpdatePostDto): Promise<PostEntity> {
-    if (updatePostDto.paidPost && updatePostDto.type != POST_PAID) {
-      updatePostDto.paidPost = null;
-    }
-    if (updatePostDto.mediaPost && updatePostDto.type != POST_MEDIA) {
-      updatePostDto.mediaPost = null;
-    }
+    // handle not map post data by type
+    Object.entries(constant.POST_LIST).forEach(([key, value]) => {
+      if (parseInt(key) !== updatePostDto.type) {
+        delete updatePostDto[value];
+      }
+    });
     updatePostDto.id = id;
     const updatePost = await this.postRepository.preload(updatePostDto);
     return await this.postRepository.save(updatePost);
